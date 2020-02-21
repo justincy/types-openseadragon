@@ -234,22 +234,23 @@ export interface Options {
   id?: string;
   element?: HTMLElement;
   tileSources?:
-      | string
-      | string[]
-      | TileSource[]
-      | {
-            Image: {
-                xmlns?: string;
-                Url: string;
-                Format: string;
-                Overlap: string;
-                TileSize: string;
-                Size: {
-                    Width: string;
-                    Height: string;
-                };
-            };
+    | string
+    | string[]
+    | TileSource[]
+    | TileSourceOptions
+    | {
+        Image: {
+          xmlns?: string;
+          Url: string;
+          Format: string;
+          Overlap: string;
+          TileSize: string;
+          Size: {
+            Width: string;
+            Height: string;
+          };
         };
+      };
   tabIndex?: number;
   overlays?: any[];
   prefixUrl?: string;
@@ -264,17 +265,17 @@ export interface Options {
   opacity?: number;
   preload?: boolean;
   compositeOperation?:
-      | "source-over"
-      | "source-atop"
-      | "source-in"
-      | "source-out"
-      | "destination-over"
-      | "destination-atop"
-      | "destination-in"
-      | "destination-out"
-      | "lighter"
-      | "copy"
-      | "xor";
+    | "source-over"
+    | "source-atop"
+    | "source-in"
+    | "source-out"
+    | "destination-over"
+    | "destination-atop"
+    | "destination-in"
+    | "destination-out"
+    | "lighter"
+    | "copy"
+    | "xor";
   placeholderFillStyle?: string | CanvasGradient | CanvasPattern;
   degrees?: number;
   flipped?: boolean;
@@ -314,11 +315,11 @@ export interface Options {
   showNavigator?: boolean;
   navigatorId?: string;
   navigatorPosition?:
-      | "TOP_LEFT"
-      | "TOP_RIGHT"
-      | "BOTTOM_LEFT"
-      | "BOTTOM_RIGHT"
-      | "ABSOLUTE";
+    | "TOP_LEFT"
+    | "TOP_RIGHT"
+    | "BOTTOM_LEFT"
+    | "BOTTOM_RIGHT"
+    | "ABSOLUTE";
   navigatorSizeRatio?: number;
   navigatorMaintainSizeRatio?: boolean;
   navigatorTop?: number | string;
@@ -406,42 +407,45 @@ export class Button extends EventSource {
   tracker: MouseTracker;
 
   constructor(options: {
-      element?: Element;
-      tooltip?: string;
-      srcRest?: string;
-      srcGroup?: string;
-      srcHover?: string;
-      srcDown?: string;
-      fadeDelay?: number;
-      fadeLength?: number;
-      onPress?: EventHandler<ButtonEvent>;
-      onRelease?: EventHandler<ButtonEvent>;
-      onClick?: EventHandler<ButtonEvent>;
-      onEnter?: EventHandler<ButtonEvent>;
-      onExit?: EventHandler<ButtonEvent>;
-      onFocus?: EventHandler<ButtonEvent>;
-      onBlur?: EventHandler<ButtonEvent>;
+    element?: Element;
+    tooltip?: string;
+    srcRest?: string;
+    srcGroup?: string;
+    srcHover?: string;
+    srcDown?: string;
+    fadeDelay?: number;
+    fadeLength?: number;
+    onPress?: EventHandler<ButtonEvent>;
+    onRelease?: EventHandler<ButtonEvent>;
+    onClick?: EventHandler<ButtonEvent>;
+    onEnter?: EventHandler<ButtonEvent>;
+    onExit?: EventHandler<ButtonEvent>;
+    onFocus?: EventHandler<ButtonEvent>;
+    onBlur?: EventHandler<ButtonEvent>;
   });
 
   addHandler(
-      eventName: ButtonEventName,
-      handler: EventHandler<ButtonEvent>,
-      userData?: object
+    eventName: ButtonEventName,
+    handler: EventHandler<ButtonEvent>,
+    userData?: object
   ): void;
   addOnceHandler(
-      eventName: ButtonEventName,
-      handler: EventHandler<ButtonEvent>,
-      userData?: object,
-      times?: number
+    eventName: ButtonEventName,
+    handler: EventHandler<ButtonEvent>,
+    userData?: object,
+    times?: number
   ): void;
   disable(): void;
   enable(): void;
   getHandler(
-      eventName: ButtonEventName
+    eventName: ButtonEventName
   ): (source: ButtonEventName, ...args: any[]) => void;
   raiseEvent(eventName: ButtonEventName, eventArgs: object): void;
   removeAllHandlers(eventName: ButtonEventName): void;
-  removeHandler(eventName: ButtonEventName, handler: EventHandler<ButtonEvent>): void;
+  removeHandler(
+    eventName: ButtonEventName,
+    handler: EventHandler<ButtonEvent>
+  ): void;
 }
 
 export class ButtonGroup {
@@ -488,12 +492,12 @@ export class DisplayRect extends Rect {
   minLevel: number;
 
   constructor(
-      x: number,
-      y: number,
-      width: number,
-      height: number,
-      minLevel: number,
-      maxLevel: number
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    minLevel: number,
+    maxLevel: number
   );
 }
 
@@ -504,32 +508,32 @@ export class Drawer {
   // element : Element; // Deprecated
 
   constructor(options: {
-      viewer: Viewer;
-      viewport: Viewport;
-      element: Element;
-      debugGridColor?: string;
+    viewer: Viewer;
+    viewport: Viewport;
+    element: Element;
+    debugGridColor?: string;
   });
 
   blendSketch(options: {
-      opacity: number;
-      scale?: number;
-      translate?: Point;
-      compositeOperation?: string;
-      bounds?: Rect;
+    opacity: number;
+    scale?: number;
+    translate?: Point;
+    compositeOperation?: string;
+    bounds?: Rect;
   }): void;
   canRotate(): boolean;
   clear(): void;
   destroy(): void;
   drawTile(
-      tile: Tile,
-      drawingHandler: (
-          context: CanvasRenderingContext2D,
-          tile: any,
-          rendered: any
-      ) => void, // TODO: determine handler parameter types
-      useSketch: boolean,
-      scale?: number,
-      translate?: Point
+    tile: Tile,
+    drawingHandler: (
+      context: CanvasRenderingContext2D,
+      tile: any,
+      rendered: any
+    ) => void, // TODO: determine handler parameter types
+    useSketch: boolean,
+    scale?: number,
+    translate?: Point
   ): void;
   getCanvasSize(sketch: boolean): Point;
   getOpacity(): number;
@@ -539,15 +543,15 @@ export class Drawer {
 
 export class DziTileSource extends TileSource {
   constructor(
-      width: number,
-      height: number,
-      tileSize: number,
-      tileOverlap: number,
-      tilesUrl: number,
-      fileFormat: number,
-      displayRects: number,
-      minLevel: number,
-      maxLevel: number
+    width: number,
+    height: number,
+    tileSize: number,
+    tileOverlap: number,
+    tilesUrl: number,
+    fileFormat: number,
+    displayRects: number,
+    minLevel: number,
+    maxLevel: number
   );
 }
 
@@ -557,34 +561,34 @@ export class ImageLoader {
   constructor(options: { jobLimit?: number; timeout?: number });
 
   addJob(options: {
-      src?: string;
-      loadWithAjax?: string;
-      ajaxHeaders?: string;
-      crossOriginPolicy?: string | boolean;
-      ajaxWithCredentials?: boolean;
-      callback?: () => void;
-      abort?: () => void;
+    src?: string;
+    loadWithAjax?: string;
+    ajaxHeaders?: string;
+    crossOriginPolicy?: string | boolean;
+    ajaxWithCredentials?: boolean;
+    callback?: () => void;
+    abort?: () => void;
   }): void;
   clear(): void;
 }
 
 export class ImageTileSource extends TileSource {
   constructor(options: {
-      url: string;
-      buildPyramid?: boolean;
-      crossOriginPolicy?: string | boolean;
-      ajaxWidthCredentials?: string | boolean;
-      useCanvas?: boolean;
+    url: string;
+    buildPyramid?: boolean;
+    crossOriginPolicy?: string | boolean;
+    ajaxWidthCredentials?: string | boolean;
+    useCanvas?: boolean;
   });
 }
 
 export class LegacyTileSource extends TileSource {
   constructor(
-      levels: Array<{
-          url: string;
-          width: number;
-          height: number;
-      }>
+    levels: Array<{
+      url: string;
+      width: number;
+      height: number;
+    }>
   );
 }
 
@@ -696,11 +700,11 @@ export class Navigator extends Viewer {
 
 export class OsmTileSource extends TileSource {
   constructor(
-      width: number,
-      height: number,
-      tileSize: number,
-      tileOverlap: number,
-      tilesUrl: string
+    width: number,
+    height: number,
+    tileSize: number,
+    tileOverlap: number,
+    tilesUrl: string
   );
 }
 
@@ -755,11 +759,11 @@ export class Rect {
   height: number;
   degrees: number;
   constructor(
-      x?: number,
-      y?: number,
-      width?: number,
-      height?: number,
-      degrees?: number
+    x?: number,
+    y?: number,
+    width?: number,
+    height?: number,
+    degrees?: number
   );
   clone(): Rect;
   containsPoint(point: Point, epsilon?: number): boolean;
@@ -790,19 +794,19 @@ export class ReferenceStrip {
 export class Spring {
   animationTime: number;
   current: {
-      value: number;
-      time: number;
+    value: number;
+    time: number;
   };
   springStiffness: number;
   start: {
-      value: number;
-      time: number;
+    value: number;
+    time: number;
   };
   constructor(options: {
-      springStiffness: number;
-      animationTime: number;
-      initial?: number;
-      exponential?: boolean;
+    springStiffness: number;
+    animationTime: number;
+    initial?: number;
+    exponential?: boolean;
   });
   isAtTargetValue(): boolean;
   resetTo(target: number): void;
@@ -840,26 +844,26 @@ export class Tile {
   y: number;
 
   constructor(
-      level: number,
-      x: number,
-      y: number,
-      bounds: Rect,
-      exists: boolean,
-      url: string,
-      context2D: CanvasRenderingContext2D,
-      loadWithAjax: boolean,
-      ajaxHeaders: object,
-      sourceBounds: Rect
+    level: number,
+    x: number,
+    y: number,
+    bounds: Rect,
+    exists: boolean,
+    url: string,
+    context2D: CanvasRenderingContext2D,
+    loadWithAjax: boolean,
+    ajaxHeaders: object,
+    sourceBounds: Rect
   );
   drawCanvas(
+    context: CanvasRenderingContext2D,
+    drawingHandler: (
       context: CanvasRenderingContext2D,
-      drawingHandler: (
-          context: CanvasRenderingContext2D,
-          tile: any,
-          rendered: any
-      ) => void,
-      scale?: number,
-      translate?: Point
+      tile: any,
+      rendered: any
+    ) => void,
+    scale?: number,
+    translate?: Point
   ): void;
   drawHTML(container: Element): void;
   getScaleForEdgeSmoothing(): number;
@@ -871,10 +875,10 @@ export class Tile {
 export class TileCache {
   constructor(options: { maxImageCacheCount?: number });
   cacheTile(options: {
-      tile: Tile;
-      image: HTMLImageElement; // TODO: check type
-      tiledImage: TiledImage;
-      cutoff?: number;
+    tile: Tile;
+    image: HTMLImageElement; // TODO: check type
+    tiledImage: TiledImage;
+    cutoff?: number;
   }): void;
   clearTilesFor(tiledImage: TiledImage): void;
   numTilesLoaded(): number;
@@ -883,49 +887,49 @@ export class TileCache {
 export class TiledImage {
   source: TileSource;
   constructor(options: {
-      source: TileSource;
-      viewer: Viewer;
-      tileCache: TileCache;
-      drawer: Drawer;
-      imageLoader: ImageLoader;
-      x?: number;
-      y?: number;
-      width?: number;
-      height?: number;
-      fitBounds?: Rect;
-      fitBoundsPlacement?: Placement;
-      clip?: Rect;
-      springStiffness?: number;
-      animationTime?: boolean;
-      minZoomImageRatio?: number;
-      wrapHorizontal?: boolean;
-      wrapVertical?: boolean;
-      immediateRender?: boolean;
-      blendTime?: number;
-      alwaysBlend?: boolean;
-      minPixelRatio?: number;
-      smoothTileEdgesMinZoom?: number;
-      iOSDevice?: boolean;
-      opacity?: number;
-      preload?: boolean;
-      compositeOperation?: string;
-      debugMode?: boolean;
-      placeholderFillStyle?: string | CanvasGradient | CanvasPattern;
-      crossOriginPolicy?: string | boolean;
-      ajaxWithCredentials?: boolean;
-      loadTilesWithAjax?: boolean;
-      ajaxHeaders?: object;
+    source: TileSource;
+    viewer: Viewer;
+    tileCache: TileCache;
+    drawer: Drawer;
+    imageLoader: ImageLoader;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    fitBounds?: Rect;
+    fitBoundsPlacement?: Placement;
+    clip?: Rect;
+    springStiffness?: number;
+    animationTime?: boolean;
+    minZoomImageRatio?: number;
+    wrapHorizontal?: boolean;
+    wrapVertical?: boolean;
+    immediateRender?: boolean;
+    blendTime?: number;
+    alwaysBlend?: boolean;
+    minPixelRatio?: number;
+    smoothTileEdgesMinZoom?: number;
+    iOSDevice?: boolean;
+    opacity?: number;
+    preload?: boolean;
+    compositeOperation?: string;
+    debugMode?: boolean;
+    placeholderFillStyle?: string | CanvasGradient | CanvasPattern;
+    crossOriginPolicy?: string | boolean;
+    ajaxWithCredentials?: boolean;
+    loadTilesWithAjax?: boolean;
+    ajaxHeaders?: object;
   });
 
   addHandler(
-      eventName: string,
-      handler: EventHandler<TiledImageEvent>,
-      userData?: object
+    eventName: string,
+    handler: EventHandler<TiledImageEvent>,
+    userData?: object
   ): void;
   addOnceHandler(
-      eventName: string,
-      handler: EventHandler<TiledImageEvent>,
-      userData?: object
+    eventName: string,
+    handler: EventHandler<TiledImageEvent>,
+    userData?: object
   ): void;
   destroy(): void;
   draw(): void;
@@ -944,22 +948,22 @@ export class TiledImage {
   imageToViewerElementCoordinats(pixel: Point): Point;
   imageToViewportCoordinates(position: Point, current?: boolean): Point;
   imageToViewportCoordinates(
-      imageX: number,
-      imageY: number,
-      current?: boolean
+    imageX: number,
+    imageY: number,
+    current?: boolean
   ): Point;
   imageToViewportRectangle(
-      imageX: number,
-      imageY?: number,
-      pixelWidth?: number,
-      pixelHeight?: number,
-      current?: boolean
+    imageX: number,
+    imageY?: number,
+    pixelWidth?: number,
+    pixelHeight?: number,
+    current?: boolean
   ): Rect;
   imageToViewportRectangle(
-      position: Rect,
-      pixelWidth?: number,
-      pixelHeight?: number,
-      current?: boolean
+    position: Rect,
+    pixelWidth?: number,
+    pixelHeight?: number,
+    current?: boolean
   ): Rect;
 
   imageToViewportZoom(imageZoom: number): number;
@@ -967,7 +971,10 @@ export class TiledImage {
   needsDraw(): boolean;
   raiseEvent(eventName: string, eventArgs: object): void;
   removeAllHandlers(eventName: string): void;
-  removeHandler(eventName: string, handler: EventHandler<TiledImageEvent>): void;
+  removeHandler(
+    eventName: string,
+    handler: EventHandler<TiledImageEvent>
+  ): void;
   reset(): void;
   setClip(newClip: Rect | null): void;
   setCompositeOperation(compositeOperation: string): void;
@@ -981,17 +988,17 @@ export class TiledImage {
   viewerElementToImageCoordinates(pixel: Point): Point;
   viewportToImageCoordinates(position: Point, current?: boolean): Point;
   viewportToImageCoordinates(
-      viewerX: number,
-      viewerY: number,
-      current?: boolean
+    viewerX: number,
+    viewerY: number,
+    current?: boolean
   ): Point;
   viewportToImageRectangle(position: Rect): Rect;
   viewportToImageRectangle(
-      viewportX: number,
-      viewportY: number,
-      pixelWidth?: number,
-      pixelHeight?: number,
-      current?: boolean
+    viewportX: number,
+    viewportY: number,
+    pixelWidth?: number,
+    pixelHeight?: number,
+    current?: boolean
   ): Rect;
   viewportToImageZoom(viewportZoom: number): number;
   windowToImageCoordinates(pixel: Point): Point;
@@ -1006,15 +1013,15 @@ export class TileSource extends EventSource {
   tileOverlap: number;
   constructor(options: TileSourceOptions);
   addHandler(
-      eventName: string,
-      handler: EventHandler<TileSourceEvent>,
-      userData?: object
+    eventName: string,
+    handler: EventHandler<TileSourceEvent>,
+    userData?: object
   ): void;
   addOnceHandler(
-      eventName: string,
-      handler: EventHandler<TileSourceEvent>,
-      userData?: object,
-      times?: number
+    eventName: string,
+    handler: EventHandler<TileSourceEvent>,
+    userData?: object,
+    times?: number
   ): void;
   configure(data: string | object | any[] | Document): object;
   getClosestLevel(): number;
@@ -1025,12 +1032,7 @@ export class TileSource extends EventSource {
   getPixelRatio(level: number): number;
   getTileAjaxHeaders(level: number, x: number, y: number): object;
   getTileAtPoint(level: number, point: Point): Tile;
-  getTileBounds(
-      level: number,
-      x: number,
-      y: number,
-      isSource?: boolean
-  ): Rect;
+  getTileBounds(level: number, x: number, y: number, isSource?: boolean): Rect;
   getTileHeight(level: number): number;
   getTileUrl(level: number, x: number, y: number): string;
   getTileWidth(level: number): number;
@@ -1043,11 +1045,11 @@ export class TileSource extends EventSource {
 
 export class TmsTileSource extends TileSource {
   constructor(
-      width: number,
-      height: number,
-      tileSize: number,
-      tileOverlap: number,
-      tilesUrl: string
+    width: number,
+    height: number,
+    tileSize: number,
+    tileOverlap: number,
+    tilesUrl: string
   );
 }
 
@@ -1090,25 +1092,25 @@ export class Viewer extends ControlDock {
   constructor(options: Options);
   _cancelPendingImages(): void;
   addHandler(
-      eventName: ViewerEventName,
-      callback: EventHandler<ViewerEvent>,
-      userData?: object
+    eventName: ViewerEventName,
+    callback: EventHandler<ViewerEvent>,
+    userData?: object
   ): void;
   addOnceHandler(
-      eventName: ViewerEventName,
-      callback: EventHandler<ViewerEvent>,
-      userData?: object,
-      times?: number
+    eventName: ViewerEventName,
+    callback: EventHandler<ViewerEvent>,
+    userData?: object,
+    times?: number
   ): void;
   addOverlay(
-      element: HTMLElement | string | object,
-      location?: Point | Rect,
-      placement?: Placement,
-      onDraw?: (
-          element: HTMLElement,
-          location: Location,
-          placement: Placement
-      ) => void
+    element: HTMLElement | string | object,
+    location?: Point | Rect,
+    placement?: Placement,
+    onDraw?: (
+      element: HTMLElement,
+      location: Location,
+      placement: Placement
+    ) => void
   ): Viewer;
   addReferenceStrip(): void;
   addSimpleImage(options: TiledImageOptions): void; // TODO: check options type
@@ -1129,8 +1131,8 @@ export class Viewer extends ControlDock {
   isOpen(): boolean;
   isVisible(): boolean;
   open(
-      tileSources: string | object | TileSource[],
-      initialPage?: number
+    tileSources: string | object | TileSource[],
+    initialPage?: number
   ): Viewer;
   raiseEvent(eventName: string, eventArgs?: object): void;
   removeAllHandlers(eventName: string): void;
@@ -1144,27 +1146,27 @@ export class Viewer extends ControlDock {
   setMouseNavEnabled(enabled: boolean): Viewer;
   setVisible(visible: boolean): Viewer;
   updateOverlay(
-      element: Element | string,
-      location: Point | Rect,
-      placement?: Placement
+    element: Element | string,
+    location: Point | Rect,
+    placement?: Placement
   ): Viewer;
 }
 
 export class Viewport {
   constructor(options: {
-      margins: object;
-      springStiffness?: number;
-      animationTime?: number;
-      minZoomImageRatio?: number;
-      maxZoomPixelRatio?: number;
-      visibilityRatio?: number;
-      wrapHorizontal?: boolean;
-      wrapVertical?: boolean;
-      defaultZoomLevel?: number;
-      minZoomLevel?: number;
-      maxZoomLevel?: number;
-      degrees?: number;
-      homeFillsViewer?: boolean;
+    margins: object;
+    springStiffness?: number;
+    animationTime?: number;
+    minZoomImageRatio?: number;
+    maxZoomPixelRatio?: number;
+    visibilityRatio?: number;
+    wrapHorizontal?: boolean;
+    wrapVertical?: boolean;
+    defaultZoomLevel?: number;
+    minZoomLevel?: number;
+    maxZoomLevel?: number;
+    degrees?: number;
+    homeFillsViewer?: boolean;
   });
 
   applyConstraints(immediately?: boolean): Viewport;
@@ -1199,17 +1201,17 @@ export class Viewport {
   imageToViewportCoordinates(position: Point): Point;
   imageToViewportCoordinates(imageX: number, imageY: number): Point;
   imageToViewportCoordinates(
-      imageX: number,
-      imageY: number,
-      pixelWidth: number,
-      pixelHeight: number
+    imageX: number,
+    imageY: number,
+    pixelWidth: number,
+    pixelHeight: number
   ): Point;
   imageToViewportRectangle(
-    imageX: number | Rect,
-    imageY?: number,
-    pixelWidth?: number,
-    pixelHeight?: number
-  ): Rect;
+    imageX: number | Rect,
+    imageY?: number,
+    pixelWidth?: number,
+    pixelHeight?: number
+  ): Rect;
   imageToViewportZoom(imageZoom: number): number;
   imageToWindowCoordinates(pixel: Point): Point;
   panBy(delta: Point, immediately?: boolean): Viewport;
@@ -1232,10 +1234,10 @@ export class Viewport {
   viewportToImageCoordinates(viewerX: number, viewerY: number): Point;
   viewportToImageRectangle(rectangle: Rect): Rect;
   viewportToImageRectangle(
-      viewerX: number,
-      viewerY: number,
-      pointWidth: number,
-      pointHeight: number
+    viewerX: number,
+    viewerY: number,
+    pointWidth: number,
+    pointHeight: number
   ): Rect;
   viewportToImageZoom(viewportZoom: number): number;
   viewportToViewerElementCoordinates(point: Point): Point;
@@ -1251,24 +1253,24 @@ export class World extends EventSource {
   constructor(options: object);
 
   addHandler(
-      eventName: WorldEventName,
-      callback: EventHandler<WorldEvent>,
-      userData?: object
+    eventName: WorldEventName,
+    callback: EventHandler<WorldEvent>,
+    userData?: object
   ): void;
   addItem(item: TiledImage, options?: { index?: number }): void;
   addOnceHandler(
-      eventName: string,
-      handler: EventHandler<WorldEvent>,
-      userData?: object,
-      times?: number
+    eventName: string,
+    handler: EventHandler<WorldEvent>,
+    userData?: object,
+    times?: number
   ): void;
   arrange(options: {
-      immediately?: boolean;
-      layout?: "horizontal" | "vertical";
-      rows?: number;
-      columns?: number;
-      tileSize?: number;
-      tileMargin?: number;
+    immediately?: boolean;
+    layout?: "horizontal" | "vertical";
+    rows?: number;
+    columns?: number;
+    tileSize?: number;
+    tileMargin?: number;
   }): void;
   draw(): void;
   getContentFactor(): number;
@@ -1291,10 +1293,10 @@ export class World extends EventSource {
 
 export class ZoomifyTileSource extends TileSource {
   constructor(
-      width: number,
-      height: number,
-      tileSize: number,
-      tilesUrl: string
+    width: number,
+    height: number,
+    tileSize: number,
+    tilesUrl: string
   );
 }
 
@@ -1459,4 +1461,4 @@ interface WorldEvent extends OSDEvent<World> {
   newIndex?: number;
 }
 
-export default Viewer;
+export default function(options: Options): Viewer;
